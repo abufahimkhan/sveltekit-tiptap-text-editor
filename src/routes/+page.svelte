@@ -1,5 +1,5 @@
 <script>
-  import TipTapEditor from '../components/TipTapEditor.svelte';
+  import TipTapEditor from "../components/TipTapEditor.svelte";
   import "../app.css";
 </script>
 

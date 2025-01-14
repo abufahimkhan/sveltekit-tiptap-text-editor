@@ -4,12 +4,18 @@
   import StarterKit from "@tiptap/starter-kit";
   import { writable } from "svelte/store";
   import { onMount } from "svelte";
+  import { CohereClientV2 } from "cohere-ai";
 
   // State Management
   const isLoading = writable(false);
   const errorMessage = writable("");
   const aiErrorMessage = writable("");
   const customPrompt = writable("");
+
+  // API Client Setup
+  const cohere = new CohereClientV2({
+    token: process.env.COHERE_API_TOKEN || "",
+  });
 
   // Editor Variables
   let editorContainer: HTMLDivElement | null = null;
@@ -52,7 +58,7 @@
     aiErrorMessage.set("");
   };
 
-  // Regenerate Text with LLM (Make API Call to SvelteKit API Route)
+  // Regenerate Text with LLM
   const cohereResponse = async (): Promise<void> => {
     if (!editor) return;
 
@@ -78,20 +84,15 @@
     isLoading.set(true);
 
     try {
-      // Make request to the back-end API
-      const response = await fetch("/api", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: selectedText || editor.state.doc.textContent, prompt }),
+      const response = await cohere.chat({
+        model: "command-r-plus",
+        messages: [{ role: "user", content: prompt }],
       });
 
-      const data = await response.json();
+      const generatedText = response?.message?.content;
 
-      if (response.ok && data.text) {
-        const generatedText = data.text;
-
+      if (generatedText) {
+        // If text is selected, replace the selected content with the AI response
         if (selectedText) {
           editor.commands.insertContentAt(
             {
@@ -101,11 +102,12 @@
             generatedText
           );
         } else {
+          // If no text is selected, append the generated text at the end
           editor.commands.insertContent(generatedText);
         }
       } else {
         aiErrorMessage.set(
-          data.error || "AI could not generate a meaningful response. Please try again."
+          "AI could not generate a meaningful response. Please try again."
         );
       }
     } catch (err) {

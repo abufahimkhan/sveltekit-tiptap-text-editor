@@ -1,39 +1,110 @@
-# sv
+# SvelteKit TipTap Text Editor with AI Integration
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This project integrates a TipTap text editor into a SvelteKit application with AI-powered text generation using Cohere's API.
 
-## Creating a project
+---
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Prerequisites
 
-```bash
-# create a new project in the current directory
-npx sv create
+Ensure you have the following installed:
 
-# create a new project in my-app
-npx sv create my-app
-```
+- [Node.js](https://nodejs.org/) (v16 or newer)
+- npm (included with Node.js)
 
-## Developing
+---
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Setup and Installation
 
-```bash
-npm run dev
+1. **Clone or Create the Project**:
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+   ```bash
+   npx sv create sveltekit-tiptap-text-editor
+   ```
 
-## Building
+2. **Navigate to the Project Directory**:
 
-To create a production version of your app:
+   ```bash
+   cd sveltekit-tiptap-text-editor
+   ```
 
-```bash
-npm run build
-```
+3. **Install Dependencies**:
 
-You can preview the production build with `npm run preview`.
+   ```bash
+   npm install
+   ```
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-# sveltekit-tiptap-text-editor
+4. **Install Required Packages**:
+
+   ```bash
+   npm install @tiptap/core @tiptap/starter-kit @tiptap/extension-text-style @tiptap/extension-bold @tiptap/extension-italic
+   npm install -D tailwindcss postcss autoprefixer
+   ```
+
+5. **Initialize TailwindCSS**:
+
+   ```bash
+   npx tailwindcss init
+   ```
+
+6. **Configure Tailwind**:
+   Update the `tailwind.config.js` file with the following:
+
+   ```javascript
+   /** @type {import('tailwindcss').Config} */
+   module.exports = {
+     content: ['./src/**/*.{html,js,svelte,ts}'],
+     theme: {
+       extend: {}
+     },
+     plugins: []
+   }
+   ```
+
+7. **Set Up Cohere API Key**:
+   Obtain your API key from [Cohere's Dashboard](https://docs.cohere.com/reference/about#typescript).
+
+   Create a `.env` file in the root of the project and add:
+
+   ```env
+   COHERE_API_KEY=your_api_key_here
+   ```
+
+8. **Run the Development Server**:
+   ```bash
+   npm run dev -- --open
+   ```
+
+---
+
+## Using the Plugin within the Editor
+
+1. **Select Text**: Highlight any portion of the text within the editor.
+2. **Generate AI Content**: Use the "Regenerate with AI" button to replace the selected text with AI-generated content.
+3. **Customize Prompt**: Enter a custom prompt in the input field for more specific AI responses.
+
+---
+
+## Features
+
+- **Rich Text Editing**:
+  - Bold
+  - Italics
+  - Text Styles
+- **AI Integration**:
+  - Text generation using Cohere's API.
+  - Inline replacement of selected text.
+- **Dynamic UI**:
+  - Smooth loading animations.
+  - Error feedback for better user experience.
+
+---
+
+## Notes on API Key Setup
+
+1. Ensure the API key is valid and correctly set in the `.env` file.
+2. Never expose the API key in client-side code; always use environment variables or secure back-end services.
+3. If the API key is invalid or the request fails, the application will display an error message.
+
+---
+
+For more details, refer to the [Cohere Documentation](https://docs.cohere.com/).
