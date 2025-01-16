@@ -15,96 +15,161 @@ Ensure you have the following installed:
 
 ## Setup and Installation
 
-1. **Clone or Create the Project**:
+1. **Create or Clone the Project**:
 
    ```bash
    npx sv create sveltekit-tiptap-text-editor
    ```
 
-2. **Navigate to the Project Directory**:
+2. **Navigate to the Project Directory:**:
+   -cd sveltekit-tiptap-text-editor
 
-   ```bash
-   cd sveltekit-tiptap-text-editor
-   ```
+3. **Install Project Dependencies:**:
 
-3. **Install Dependencies**:
+- npm install
 
-   ```bash
-   npm install
-   ```
+4. **Install Additional Required Packages:**:
 
-4. **Install Required Packages**:
+- npm install @tiptap/core @tiptap/starter-kit @tiptap/extension-text-style @tiptap/extension-bold @tiptap/extension-italic svelte/store
+- npm install -D tailwindcss postcss autoprefixer dotenv
 
-   ```bash
-   npm install @tiptap/core @tiptap/starter-kit @tiptap/extension-text-style @tiptap/extension-bold @tiptap/extension-italic
-   npm install -D tailwindcss postcss autoprefixer
-   ```
+5. **Navigate to the Project Directory:**:
 
-5. **Initialize TailwindCSS**:
+- cd sveltekit-tiptap-text-editor
 
-   ```bash
-   npx tailwindcss init
-   ```
+5. **Initialize TailwindCSS:**:
 
-6. **Configure Tailwind**:
-   Update the `tailwind.config.js` file with the following:
+- npx tailwindcss init
 
-   ```javascript
-   /** @type {import('tailwindcss').Config} */
+5. **Configure Tailwind: Update the tailwind.config.js file with the following configuration:**:
+   /** @type {import('tailwindcss').Config} \*/
    module.exports = {
-     content: ['./src/**/*.{html,js,svelte,ts}'],
-     theme: {
-       extend: {}
-     },
-     plugins: []
-   }
-   ```
+   content: ['./src/**/\*.{html,js,svelte,ts}'],
+   theme: {
+   extend: {}
+   },
+   plugins: []
+   };
 
-7. **Set Up Cohere API Key**:
-   Obtain your API key from [Cohere's Dashboard](https://docs.cohere.com/reference/about#typescript).
+6. **Set Up Cohere API Key:**:
 
-   Create a `.env` file in the root of the project and add:
+- Obtain your API key from Cohere's Dashboard.
 
-   ```env
-   COHERE_API_KEY=your_api_key_here
-   ```
+- Create a .env file in the root of the project and add your API key:
 
-8. **Run the Development Server**:
-   ```bash
-   npm run dev -- --open
-   ```
+- env
+- Copy
+- Edit
+- COHERE_API_TOKEN=your_api_key_here
 
----
+5. **Run the Development Server:**:
 
-## Using the Plugin within the Editor
+- npm run dev
 
-1. **Select Text**: Highlight any portion of the text within the editor.
-2. **Generate AI Content**: Use the "Regenerate with AI" button to replace the selected text with AI-generated content.
-3. **Customize Prompt**: Enter a custom prompt in the input field for more specific AI responses.
+5. \*\*Features
+   Rich Text Editing
+   The TipTap text editor includes the following functionalities:
 
----
+Bold Text: Apply bold styling to selected text.
+Italic Text: Apply italic styling to selected text.
+Strikethrough: Add strikethrough styling.
+Dynamic Content Replacement: AI responses dynamically replace selected text or append content.
+AI Integration
+Text Generation: Cohere API generates contextual text based on editor content.
+Custom Prompts: Customize prompts for specific AI behavior.
+Error Handling: Clear feedback for invalid API keys, empty prompts, or connection errors.
+UI and UX
+Responsive Design: Tailored for different screen sizes using TailwindCSS.
+Dynamic Error Messages: Highlight issues like missing API keys or invalid input.
+Smooth Animations: Loading indicators for generating AI responses.
+Usage Instructions
+Edit Text:
 
-## Features
+Use the TipTap editor to write or format text.
+Buttons for Bold, Italic, and Strike are available to style content.
+Select and Generate:
 
-- **Rich Text Editing**:
-  - Bold
-  - Italics
-  - Text Styles
-- **AI Integration**:
-  - Text generation using Cohere's API.
-  - Inline replacement of selected text.
-- **Dynamic UI**:
-  - Smooth loading animations.
-  - Error feedback for better user experience.
+Highlight text and click Generate with AI to replace it with AI-generated content.
+Leave the text unselected to append generated content at the end.
+Custom AI Prompts:
 
----
+Enter a custom prompt in the input field to tailor AI responses to specific needs.
+If no custom prompt is provided, a default prompt will be used.
+Clear Editor Content:
 
-## Notes on API Key Setup
+Use the Clear All button to reset the editor content to the placeholder: "Write your prompt here...".
+API Key and Environment Variables
+Security Best Practices:
 
-1. Ensure the API key is valid and correctly set in the `.env` file.
-2. Never expose the API key in client-side code; always use environment variables or secure back-end services.
-3. If the API key is invalid or the request fails, the application will display an error message.
+Store the API key in the .env file to avoid exposing it in client-side code.
+Use a server-side proxy for API calls in production environments to enhance security.
+Error Scenarios:
 
----
+Invalid API keys or expired tokens will trigger an error message.
+Ensure that your API token has sufficient access and is valid for your account.
+Example Code
+Editor Component Setup
+Here’s an example of how the editor and AI generation logic are implemented:
 
-For more details, refer to the [Cohere Documentation](https://docs.cohere.com/).
+svelte
+Copy
+Edit
+"
+
+<script lang="ts">
+  import { writable } from "svelte/store";
+  import { Editor } from "@tiptap/core";
+  import StarterKit from "@tiptap/starter-kit";
+
+  let editorContainer: HTMLDivElement | null = null;
+  let editor: Editor | null = null;
+
+  const initializeEditor = (container: HTMLDivElement | null): Editor => {
+    return new Editor({
+      element: container || undefined,
+      extensions: [StarterKit],
+      content: "Write your prompt here...",
+    });
+  };
+
+  onMount(() => {
+    editor = initializeEditor(editorContainer);
+    return () => editor?.destroy();
+  });
+</script>
+
+<div bind:this={editorContainer} class="editor-container"></div>"
+AI Response Handler
+ts
+Copy
+Edit
+const cohereResponse = async (): Promise<void> => {
+  const response = await cohere.chat({
+    model: "command-r-plus",
+    messages: [{ role: "user", content: "Your prompt here..." }],
+  });
+
+if (response?.message?.content) {
+editor.commands.insertContent(response.message.content);
+}
+};
+Troubleshooting
+Editor Does Not Initialize:
+
+Ensure that the editor container (bind:this) is correctly bound.
+Check that all dependencies, including TipTap, are installed.
+AI Response Fails:
+
+Verify that the COHERE_API_TOKEN in the .env file is valid.
+Check your internet connection and Cohere API quotas.
+Text Formatting Issues:
+
+Ensure the appropriate extensions (e.g., StarterKit, Bold, Italic) are imported and included during editor initialization.
+Resources
+SvelteKit Documentation
+TipTap Documentation
+Cohere API Documentation
+TailwindCSS Documentation
+Copy
+Edit
+\*\*:
