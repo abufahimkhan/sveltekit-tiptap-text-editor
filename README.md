@@ -12,7 +12,6 @@ Ensure you have the following installed:
 - npm (included with Node.js)
 
 ---
-
 ## Setup and Installation
 
 1. **Create or Clone the Project**:
