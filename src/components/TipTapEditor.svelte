@@ -80,6 +80,7 @@
             generatedText,
           );
         } else {
+          editor.commands.insertContent("\n");
           editor.commands.insertContent(generatedText);
         }
       } else {
@@ -112,6 +113,9 @@
       bind:value={$customPrompt}
       placeholder="Customize the prompt for AI..."
       class="w-1/2 text-gray-200 p-2 bg-gray-900 border border-gray-700 rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-300"
+      on:keypress={(e) => {
+        if (e.key === "Enter") cohereResponse();
+      }}
     />
   </div>
   <GenerateButton isLoading={$isLoading} onClick={cohereResponse} />

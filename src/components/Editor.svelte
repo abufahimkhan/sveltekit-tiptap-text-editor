@@ -20,10 +20,11 @@
             onSelectionUpdate: ({ editor }) => {
                 if (isFirstLoad) {
                     isFirstLoad = false;
-                    editor.commands.setContent(""); // Clear the placeholder text when the user interacts for the first time
+                    editor.commands.setContent(" "); // Clear the placeholder text when the user interacts for the first time
                 }
             },
         });
+        
     };
 
     // Initialize the editor on mount and clean up on unmount
@@ -39,6 +40,8 @@
             }
         };
     });
+
+    
 </script>
 
 <div
