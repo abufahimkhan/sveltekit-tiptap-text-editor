@@ -244,5 +244,4 @@ Based on the following instruction: '${$customPrompt}', generate or modify conte
     20. **Provide Humor**: Add jokes, puns, or lighthearted elements to the content.
 
     Please interpret the user's instruction and perform the appropriate action(s) as requested.
-
 `;
