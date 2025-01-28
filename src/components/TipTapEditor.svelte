@@ -145,7 +145,7 @@
 </script>
 
 <div class="bg-black max-w-4xl mx-auto p-8 space-y-6 mt-24">
-  <h1 class="text-white text-3xl animate-pulse font-mono">Greetings.......</h1>
+  <h1 class="text-white text-3xl animate-pulse font-mono">Greetings...</h1>
 
   <!-- Response Area (Scrollable) -->
   <div
