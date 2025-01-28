@@ -1,8 +1,8 @@
 <script lang="ts">
   import "../app.css";
-  import GenerateButton from "./GenerateButton.svelte";
-  import ButtonGroup from "./ButtonGroup.svelte";
-  import ErrorMessage from "./ErrorMessage.svelte";
+  import GenerateButton from "./custom/GenerateButton.svelte";
+  import ButtonGroup from "./custom/ButtonGroup.svelte";
+  import ErrorMessage from "./custom/ErrorMessage.svelte";
   import { writable } from "svelte/store";
   import { CohereClientV2 } from "cohere-ai";
   import { Highlight } from "@tiptap/extension-highlight";
