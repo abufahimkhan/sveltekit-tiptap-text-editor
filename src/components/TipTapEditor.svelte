@@ -173,7 +173,7 @@
     <label for="editor" class="font-mono block text-gray-400 mb-2"
       >AI Custom Prompt:</label
     >
-    <div class="flex items-center space-x-4">
+    <div class="flex flex-col space-y-2 lg:space-y-0 items-center lg:flex-row space-x-4">
       <Inputs
         bind:value={$customPrompt}
         placeholder="Customize the prompt for AI..."
